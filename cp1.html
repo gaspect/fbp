@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title></title>
+    <link rel="stylesheet" href="dist/reveal.css" />
+    <link rel="stylesheet" href="dist/theme/white.css" id="theme" />
+    <link rel="stylesheet" href="plugin/highlight/zenburn.css" />
+	<link rel="stylesheet" href="css/layout.css" />
+	<link rel="stylesheet" href="plugin/customcontrols/style.css">
+
+
+    <script defer src="dist/fontawesome/all.min.js"></script>
+
+	<script type="text/javascript">
+		var forgetPop = true;
+		function onPopState(event) {
+			if(forgetPop){
+				forgetPop = false;
+			} else {
+				parent.postMessage(event.target.location.href, "app://obsidian.md");
+			}
+        }
+		window.onpopstate = onPopState;
+		window.onmessage = event => {
+			if(event.data == "reload"){
+				window.document.location.reload();
+			}
+			forgetPop = true;
+		}
+
+		function fitElements(){
+			const itemsToFit = document.getElementsByClassName('fitText');
+			for (const item in itemsToFit) {
+				if (Object.hasOwnProperty.call(itemsToFit, item)) {
+					var element = itemsToFit[item];
+					fitElement(element,1, 1000);
+					element.classList.remove('fitText');
+				}
+			}
+		}
+
+		function fitElement(element, start, end){
+
+			let size = (end + start) / 2;
+			element.style.fontSize = `${size}px`;
+
+			if(Math.abs(start - end) < 1){
+				while(element.scrollHeight > element.offsetHeight){
+					size--;
+					element.style.fontSize = `${size}px`;
+				}
+				return;
+			}
+
+			if(element.scrollHeight > element.offsetHeight){
+				fitElement(element, start, size);
+			} else {
+				fitElement(element, size, end);
+			}		
+		}
+
+
+		document.onreadystatechange = () => {
+			fitElements();
+			if (document.readyState === 'complete') {
+				if (window.location.href.indexOf("?export") != -1){
+					parent.postMessage(event.target.location.href, "app://obsidian.md");
+				}
+				if (window.location.href.indexOf("print-pdf") != -1){
+					let stateCheck = setInterval(() => {
+						clearInterval(stateCheck);
+						window.print();
+					}, 250);
+				}
+			}
+	};
+
+
+        </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides"><section  data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+# Fundamentos básicos de la programación
+
+😐 Jesús Enrique Fuentes González 😐
+
+📭 jesusefg@estudiantes.uci.cu 📭
+
+📱+53 59806170📱
+</div></script></section><section  data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+## Clase práctica 1
+
+### Algoritmos y estructuras básicas de los programas de secuencia lineal
+</div></script></section><section  data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+## Objetivo
+
+#### Codificar algoritmos secuenciales de baja complejidad a partir de un caso de estudio.
+</div></script></section><section ><section data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+### Revisión del estudio independiente
+#### Ejercicio 15.1 incisos 'a', 'd' e 'i' página 676, Deitel, H. M., & Deitel, P. J. C++ how to program.
+</div></script></section><section data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+### Respuestas
+- La entrada/salida en C++ ocurre en forma de **secuencia** de bytes.
+- La mayoría de los programas de C++ que realizan operaciones de E/S deben incluir el archivo de encabezado **iostream** que contiene las declaraciones requeridas para todas las operaciones de E/S de f lujos.
+- Las operaciones de salida del f lujo de error estándar se dirigen a los objetos flujo **cerr** o **stderr**.
+</div></script></section></section><section ><section data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+# Recordando
+</div></script></section><section data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+### Pasos a seguir para solucionar un problema de programación
+- Leer el problema cuantas veces sea necesario.
+- Analizar el problema.
+- Modelar el problema.
+- Seleccionar las mejores herramientas para la solución.
+- Programar la solución.
+- Validar o probar la solución.
+</div></script></section><section data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+###  Estructura de un programa en C++
+
+```c++
+// 👉 directiva de preprocesador
+#include<iostream>; 
+using namespace std;
+
+// 👉 declaración de la función
+int main(){ 
+
+	// 👉 declaración multiple
+	int numero1, numero2; 
+	// 👉 declaración
+	int suma; 
+	
+	// 👉 operación con el flujo de salida
+	cout << "Entre dos numeros: " << endl; 
+	// 👉 operación  con el flujo de entrada
+	cin >> numero1 >> numero2; 
+	// 👉 operación aritmética y asignación
+	suma = numero1 + numero2;
+	// 👉 operación con el flujo de salida
+	cout << "Su suma es " << suma << endl; 
+	return 0;
+}
+```
+</div></script></section><section data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+### Tipos de datos básicos
+
+
+| Tipos de datos | Tamaño(bytes) |              Rango              |
+|:--------------:|:-------------:|:-------------------------------:|
+|     short      |       2       |         [-32768,32767]          |
+|      int       |       4       |  [-2147483648, 2,147,483,647]   |
+|      char      |       4       |           [-128, 127]           |
+|     float      |       4       |  `$[3.4*10^{-38},3.4*10^{38}]$`   |
+</div></script></section><section data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+### Tipos de datos básicos
+|  Tipos de datos  |  Tamaño(bytes)  |               Rango               |
+|:----------------:|:---------------:|:---------------------------------:|
+|      double      |        8        |  `$[1.7*10^{-308},1.7*10^{308}]$`   |
+|       long       |        8        |  [-2,147,483,648, 2,147,483,647]  |
+|       bool       |        1        |               [0,1]               |
+</div></script></section><section data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+### Operadores aritméticos
+|   Operación    | Operador | Expresión |
+|:--------------:|:--------:|:---------:|
+|      suma      |    +     |   a + b   |
+|     resta      |    -     |   a - b   |
+| multiplicación |    *     |   a * b   |
+|    división    |    /     |   a / b   |
+|    residuo     |    %     |   a % b   |
+</div></script></section><section data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+### Otros operadores
+
+|   Nombre   | Operador |   Ejemplo   | Significado                                                          |
+|:----------:|:--------:|:-----------:| -------------------------------------------------------------------- |
+| Asignación |    =     | x = 1 | Al espacio en memoria que referencia x se le asigna el valor 1             |
+</div></script></section></section><section ><section data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+### Errores sintácticos comunes
+<div class="callout callout-color5">
+<div class="callout-title">
+<div class="callout-icon">
+
+<i class="fas fa-exclamation-triangle" ></i>
+
+</div>
+<div class="callout-title-inner">
+
+Olvidar un punto y coma
+
+</div>
+</div>
+<div class="callout-content">
+
+</div>
+</div>
+
+```c++
+
+#include<iostream>; 
+using namespace std;
+
+int main(){ 
+	int numero1, numero2; 
+	int suma; 
+	cout << "Entre dos numeros: " << endl; 
+	cin >> numero1 >> numero2 👈
+	suma = numero1 + numero2;
+	cout << "Su suma es " << suma << endl; 
+	return 0;
+}
+```
+</div></script></section><section data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+### Errores sintácticos comunes
+<div class="callout callout-color5">
+<div class="callout-title">
+<div class="callout-icon">
+
+<i class="fas fa-exclamation-triangle" ></i>
+
+</div>
+<div class="callout-title-inner">
+
+Olvidar abrir o cerrar las llaves
+
+</div>
+</div>
+<div class="callout-content">
+
+</div>
+</div>
+ 
+ ```c++
+
+#include<iostream>; 
+using namespace std;
+
+int main() 👈
+	int numero1, numero2; 
+	int suma; 
+	cout << "Entre dos numeros: " << endl; 
+	cin >> numero1 >> numero2 
+	suma = numero1 + numero2;
+	cout << "Su suma es " << suma << endl; 
+	return 0;
+}
+```
+</div></script></section></section><section ><section data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+### Errores lógicos comunes
+<div class="callout callout-color5">
+<div class="callout-title">
+<div class="callout-icon">
+
+<i class="fas fa-exclamation-triangle" ></i>
+
+</div>
+<div class="callout-title-inner">
+
+Pensar las variables y operadores en términos  puramente matemáticos
+
+</div>
+</div>
+<div class="callout-content">
+
+</div>
+</div>
+
+
+
+🚀 Veamos unos ejemplos:
+</div></script></section><section data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+#### Errores lógicos comunes
+<split event>
+
+<div class="callout callout-color2">
+<div class="callout-title">
+<div class="callout-icon">
+
+<i class="fas fa-fire-alt" ></i>
+
+</div>
+<div class="callout-title-inner">
+
+Instrucciones en C++
+
+</div>
+</div>
+<div class="callout-content">
+
+```c++
+
+int a = 5;
+
+int b = 1;
+
+a = b;
+
+```
+
+</div>
+</div>
+
+<div class="callout callout-color7">
+<div class="callout-title">
+<div class="callout-icon">
+
+<i class="fas fa-bolt" ></i>
+
+</div>
+<div class="callout-title-inner">
+
+Matemática
+
+</div>
+</div>
+<div class="callout-content">
+
+`$a = 5$`
+
+`$b = 1$`
+
+`$a = b$`
+
+</div>
+</div>
+
+</split>
+
+🧐¿ Por que no son equivalentes ?🧐
+</div></script></section><section data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+#### Errores lógicos comunes
+<split event>
+
+<div class="callout callout-color2">
+<div class="callout-title">
+<div class="callout-icon">
+
+<i class="fas fa-fire-alt" ></i>
+
+</div>
+<div class="callout-title-inner">
+
+Instrucciones en C++
+
+</div>
+</div>
+<div class="callout-content">
+
+```c++
+
+short a = 33000;
+
+```
+
+</div>
+</div>
+
+<div class="callout callout-color7">
+<div class="callout-title">
+<div class="callout-icon">
+
+<i class="fas fa-bolt" ></i>
+
+</div>
+<div class="callout-title-inner">
+
+Matemática
+
+</div>
+</div>
+<div class="callout-content">
+
+`$a = 33000$`
+
+</div>
+</div>
+
+</split>
+
+ 😐¿ Encuentras el error ?😐
+</div></script></section><section data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+#### Errores lógicos comunes
+
+<split event>
+
+<div class="callout callout-color2">
+<div class="callout-title">
+<div class="callout-icon">
+
+<i class="fas fa-fire-alt" ></i>
+
+</div>
+<div class="callout-title-inner">
+
+Instrucciones en C++
+
+</div>
+</div>
+<div class="callout-content">
+
+```c++
+
+short a = 20 000
+
+a = a + 20 000;
+
+```
+
+</div>
+</div>
+
+<div class="callout callout-color7">
+<div class="callout-title">
+<div class="callout-icon">
+
+<i class="fas fa-bolt" ></i>
+
+</div>
+<div class="callout-title-inner">
+
+Matemática
+
+</div>
+</div>
+<div class="callout-content">
+
+`$a = 33000$`
+
+`$a = a + 33000$`
+
+</div>
+</div>
+
+</split>
+
+😐¿ Encuentras el error ?😐
+
+🧐¿ Por que no son equivalentes ?🧐
+</div></script></section></section><section ><section data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+# Ejercicios
+</div></script></section><section data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+### Ejercicio 1
+
+Indique si cada una de las siguientes afirmaciones es **verdadera** o **falsa**. Si es falsa **explique** por qué:
+</div></script></section><section data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+- Los comentarios hacen que la computadora imprima el texto que va después de los caracteres `//` en la pantalla, al ejecutarse el programa.
+ - Todas las variables deben declararse antes de utilizarlas.
+ - C++ considera que las variables `numero` y `NuMeRo` son idénticas.
+</div></script></section><section data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+### Ejercicio 2
+
+- Declarar las variables `c`, `estaEsUnaVariable`, `q76354` y numero como de tipo `int`. 
+ - Pedir al usuario que introduzca un entero. Termine el mensaje con un signo de dos puntos (:) seguido de un espacio, y deje el cursor posicionado después del espacio.
+ - Imprimir el mensaje` “Este es un programa en  C++”`. Cada palabra debe aparecen un una línea separada.
+</div></script></section><section data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+### Ejercicio 3
+La programación de computadoras es fundamental en el área de la ciberseguridad. Actualmente en la Facultad 2 de la UCI se conoce el total de estudiantes cursando dicha asignatura, al igual que la cantidad de estudiantes que están suspensos en ella.
+</div></script></section><section data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+### Ejercicio 3
+a) Escriba un programa que solicite estos datos al usuario y calcule el por ciento de estudiantes suspensos en la asignatura y lo imprima en pantalla.
+</div></script></section></section><section ><section data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+## 😎 Ejercicios de nivel superior
+</div></script></section><section data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+###  😎 Ejercicio 4
+
+Intercambia el valor de dos variables enteras usando solo operadores aritméticos
+</div></script></section><section data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+### 😎 Ejercicio 5
+
+Dado un número ingresado por consola imprima el mismo número si es par o el par consecutivo mas cercano si es impar. No use condicionales solo los operadores aritméticos.
+</div></script></section></section><section  data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+### Estudio independiente
+Modifique el programa del ejercicio 3 para que, además, imprima el por ciento de estudiantes aprobados en la asignatura.
+</div></script></section><section  data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+# Fundamentos básicos de la programación
+
+😐 Jesús Enrique Fuentes González 😐
+
+📭 jesusefg@estudiantes.uci.cu 📭
+
+📱+53 59806170📱
+</div></script></section></div>
+    </div>
+
+    <script src="dist/reveal.js"></script>
+
+    <script src="plugin/markdown/markdown.js"></script>
+    <script src="plugin/highlight/highlight.js"></script>
+    <script src="plugin/zoom/zoom.js"></script>
+    <script src="plugin/notes/notes.js"></script>
+    <script src="plugin/math/math.js"></script>
+	<script src="plugin/mermaid/mermaid.js"></script>
+	<script src="plugin/chart/chart.min.js"></script>
+	<script src="plugin/chart/plugin.js"></script>
+	<script src="plugin/customcontrols/plugin.js"></script>
+
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+	  function isLight(color) {
+		let hex = color.replace('#', '');
+
+		// convert #fff => #ffffff
+		if(hex.length == 3){
+			hex = `${hex[0]}${hex[0]}${hex[1]}${hex[1]}${hex[2]}${hex[2]}`;
+		}
+
+		const c_r = parseInt(hex.substr(0, 2), 16);
+		const c_g = parseInt(hex.substr(2, 2), 16);
+		const c_b = parseInt(hex.substr(4, 2), 16);
+		const brightness = ((c_r * 299) + (c_g * 587) + (c_b * 114)) / 1000;
+		return brightness > 155;
+	}
+
+	var bgColor = getComputedStyle(document.documentElement).getPropertyValue('--r-background-color').trim();
+
+	if(isLight(bgColor)){
+		document.body.classList.add('has-light-background');
+	} else {
+		document.body.classList.add('has-dark-background');
+	}
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath.MathJax3,
+		  RevealMermaid,
+		  RevealChart,
+		  RevealCustomControls,
+        ],
+
+
+    	allottedTime: 120 * 1000,
+
+		mathjax3: {
+			mathjax: 'plugin/math/mathjax/tex-mml-chtml.js',
+		},
+		markdown: {
+		  gfm: true,
+		  mangle: true,
+		  pedantic: false,
+		  smartLists: false,
+		  smartypants: false,
+		},
+
+		customcontrols: {
+			controls: [
+			]
+		},
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal().getQueryHash() || {};
+
+      var options = extend(defaultOptions, {"width":960,"height":700,"margin":0.04,"controls":true,"progress":true,"slideNumber":false,"transition":"slide","transitionSpeed":"default"}, queryOptions);
+    </script>
+
+    <script>
+      Reveal.initialize(options);
+    </script>
+  </body>
+
+  <!-- created with Advanced Slides -->
+</html>
