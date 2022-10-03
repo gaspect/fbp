@@ -179,60 +179,6 @@ int main()
 	return 0;
 }
 ```
-</div></script></section><section data-markdown><script type="text/template"><!-- .slide: class="drop" -->
-<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
-<!-- .slide: class="drop" -->
-<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
-
-## ¿ Hay una mejor manera ?
-</div></div></script></section><section data-markdown><script type="text/template"><!-- .slide: class="drop" -->
-<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
-
-```c++
-#include <iostream>
-
-using std::cin;
-using std::cout;
-using std::endl;
-
-int main()
-{  
-	float total, suspensos;
-	cout << "Ingrese la cantidad total de estudiantes y los suspensos separados por espacio: ";
-	cin >> total >> suspensos;
-	float psuspensos = suspensos * 100 / total;
-	cout << "El porciento de suspensos es: " << psuspensos << endl;
-	cout << "El porciento de aprobados es: " << 100 - psuspensos << endl;
-	return 0;
-}
-```
-</div></script></section><section data-markdown><script type="text/template">
-## ¿ Hay una mejor manera ?
-</script></section><section data-markdown><script type="text/template"><!-- .slide: class="drop" -->
-<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
-
-```c++
-#include <iostream>
-
-using std::cin;
-using std::cout;
-using std::endl;
-
-  
-
-int main()
-{
-
-	int total, suspensos;
-	cout << "Ingrese la cantidad total de estudiantes y los suspensos separados por espacio: ";
-	cin >> total >> suspensos;
-	float psuspensos = (float)(suspensos * 100) / (float)(total);
-	cout << "El porciento de suspensos es: " << psuspensos << endl;
-	cout << "El porciento de aprobados es: " << 100 - psuspensos << endl;
-	return 0;
-
-}
-```
 </div></script></section></section><section  data-markdown><script type="text/template"><!-- .slide: class="drop" -->
 <div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
 
